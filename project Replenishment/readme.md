@@ -7,20 +7,20 @@
 cd api
 
 
-2 Instale as dependências
+2. Instale as dependências
 
-bash
+```bash
 npm install
 
-3 Edite o server.js com suas credenciais do banco.
+3. Edite o server.js com suas credenciais do banco.
 
 
-4 Inicie a API
+4. Inicie a API
 
-bash
+```bash
 npm start
 
-5 No navegador, abra:
+5. No navegador, abra:
 
 http://localhost:3000/index.html
 
