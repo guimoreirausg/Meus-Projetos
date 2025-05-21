@@ -28,7 +28,7 @@
 
 <script>
 function loadTable() {
-  fetch('http://localhost:3000/replenishments')
+  fetch('/replenishments')
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#timetable tbody");
