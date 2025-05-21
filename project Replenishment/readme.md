@@ -1,15 +1,14 @@
 # Replenishment Time Table
 
-## 📦 Como rodar:
+## Como rodar:
 
-1. Navegue até a pasta `api`
-```bash
+1. Navegue até a pasta api 
+
 cd api
 
 
 2. Instale as dependências
 
-```bash
 npm install
 
 3. Edite o server.js com suas credenciais do banco.
@@ -17,7 +16,6 @@ npm install
 
 4. Inicie a API
 
-```bash
 npm start
 
 5. No navegador, abra:
