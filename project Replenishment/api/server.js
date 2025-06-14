@@ -1,46 +1,63 @@
-const sql = require('mssql');
 const express = require('express');
-const app = express();
 const cors = require('cors');
+const { Pool } = require('pg'); 
 
-app.use(cors());
 
-const config = {
-  user: 'seu_usuario',
-  password: 'sua_senha',
-  server: 'seu_servidor',
-  database: 'seu_banco',
-  options: { encrypt: false }
-};
+const app = express();
+app.use(cors(
+  {
+    origin: '*',
+  })
+);
 
-app.get('/replenishments', async (req, res) => {
+const pool = new Pool({
+  host: 'localhost',
+  user: 'postgres',
+  port: 5432,
+  password: '1234',
+  database: 'dfds'
+});
+
+pool.connect()
+     .then(client => {
+       console.log('Conectado ao banco de dados!');
+       client.release(); 
+     })
+     .catch(err => {
+       console.error('Erro na conexão com o banco de dados:', err);
+     });
+
+app.get('/replenishment', async (req, res) => {
   try {
-    await sql.connect(config);
-    const result = await sql.query(`
+    const result = await pool.query(`
       SELECT 
-        status, 
-        operator, 
-        location_from, 
-        location_to, 
-        finish_at, 
-        triggered_by
-      FROM Replenishments
+        "Status", 
+        "CurrentOperator",
+		    "AssignedOperator", 
+        "From", 
+        "To", 
+        "FinishedAt", 
+        "ReplenTriggeredBy"
+      FROM replenishment
       WHERE 
-        status IN ('Available', 'In Progress')
-        OR (status = 'Completed' AND finish_at >= DATEADD(HOUR, -2, GETDATE()))
+        "Status" IN ('Available', 'In Progress')
+        OR ("Status" = 'Completed' AND "FinishedAt" >= NOW() - INTERVAL '3 hours')
       ORDER BY 
         CASE 
-          WHEN status = 'Available' THEN 1
-          WHEN status = 'In Progress' THEN 2
-          WHEN status = 'Completed' THEN 3
-        END,
-        finish_at DESC;
+          WHEN "Status" = 'Available' THEN 1
+          WHEN "Status" = 'In Progress' THEN 2
+          WHEN "Status" = 'Completed' THEN 3
+        END
+        ,"FinishedAt" DESC;
     `);
-    res.json(result.recordset);
+    res.json(result.rows);
   } catch (err) {
-    console.error(err);
+    console.error('Erro na consulta: ', err);
     res.status(500).send('Erro ao buscar dados');
   }
 });
 
-app.listen(3000, () => console.log('API rodando na porta 3000'));
+app.listen(3000, () => {
+  console.log('API rodando na porta 3000')
+
+});

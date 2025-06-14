@@ -6,7 +6,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mssql": "^9.0.1"
+    "mssql": "^11.0.1"
   },
   "scripts": {
     "start": "node server.js"

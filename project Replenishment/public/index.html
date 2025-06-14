@@ -46,9 +46,10 @@
 
 <script>
 function loadTable() {
-  fetch('/replenishments')
-    .then(res => res.json())
-    .then(data => {
+  fetch('http://127.0.0.1:3000/replenishment/')
+      .then(res => res.json()) 
+      .then(data => {
+      
       const content = document.getElementById("content");
       content.innerHTML = "";
 
@@ -56,25 +57,25 @@ function loadTable() {
       let hasData = false;
 
       statuses.forEach(status => {
-        const filtered = data.filter(item => item.status === status);
+        const filtered = data.filter(item => item.Status === status);
         if (filtered.length > 0) {
           hasData = true;
           const section = document.createElement('div');
           section.className = 'status-section';
-
+          
           const header = document.createElement('h1');
           header.innerText = status;
           section.appendChild(header);
-
+          
           filtered.forEach(item => {
             const card = document.createElement('div');
             card.className = 'item';
             card.innerHTML = `
-              <div><span class="label">Operator</span><br>${item.operator}</div>
-              <div><span class="label">From</span><br>${item.location_from}</div>
-              <div><span class="label">To</span><br>${item.location_to}</div>
-              <div><span class="label">Finish At</span><br>${item.finish_at ? new Date(item.finish_at).toLocaleString() : '-'}</div>
-              <div><span class="label">Triggered By</span><br>${item.triggered_by}</div>
+              <div><span class="label">Operator</span><br>${item.CurrentOperator}</div>
+              <div><span class="label">From</span><br>${item.From}</div>
+              <div><span class="label">To</span><br>${item.To}</div>
+              <div><span class="label">Finish At</span><br>${item.FinishedAt ? new Date(item.finish_at).toLocaleString() : '-'}</div>
+              <div><span class="label">Triggered By</span><br>${item.ReplenTriggeredBy}</div>
             `;
             section.appendChild(card);
           });
