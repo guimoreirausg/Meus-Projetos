@@ -74,7 +74,7 @@ function loadTable() {
               <div><span class="label">Operator</span><br>${item.CurrentOperator}</div>
               <div><span class="label">From</span><br>${item.From}</div>
               <div><span class="label">To</span><br>${item.To}</div>
-              <div><span class="label">Finish At</span><br>${item.FinishedAt ? new Date(item.finish_at).toLocaleString() : '-'}</div>
+              <div><span class="label">Finished At</span><br>${item.FinishedAt ? new Date(item.finish_at).toLocaleString() : '-'}</div>
               <div><span class="label">Triggered By</span><br>${item.ReplenTriggeredBy}</div>
             `;
             section.appendChild(card);
